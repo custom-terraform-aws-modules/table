@@ -12,12 +12,8 @@ run "invalid_identifier" {
 
   variables {
     identifier = "a"
-    partition_key = {
+    hash_key = {
       name = "TestPKey"
-      type = "S"
-    }
-    sort_key = {
-      name = "TestSKey"
       type = "S"
     }
   }
@@ -30,13 +26,11 @@ run "valid_identifier" {
 
   variables {
     identifier = "abc"
-    partition_key = {
+    hash_key = {
       name = "TestPKey"
-      type = "S"
-    }
-    sort_key = {
-      name = "TestSKey"
       type = "S"
     }
   }
 }
+
+

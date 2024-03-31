@@ -7,8 +7,8 @@ variable "identifier" {
   }
 }
 
-variable "partition_key" {
-  description = "Partition key of the table."
+variable "hash_key" {
+  description = "Partition or hash key of the table."
   type = object({
     name = string
     type = string
@@ -16,18 +16,39 @@ variable "partition_key" {
 }
 
 variable "sort_key" {
-  description = "Sort key of the table."
+  description = "Sort or range key of the table."
   type = object({
     name = string
     type = string
   })
+  default = null
 }
 
-variable "attributes" {
-  description = "List of attributes of the table."
+variable "provisioned" {
+  description = "Objetct to define read and write capacity for a provisioned table. If not defined an on demand table will be created."
+  type = object({
+    read_capacity  = number
+    write_capacity = number
+  })
+  default = null
+}
+
+variable "gsi_keys" {
+  description = "Global secondary index keys of the table."
   type = list(object({
-    name = string
-    type = string
+    name = optional(string, null)
+    hash_key = object({
+      name = string
+      type = string
+    })
+    sort_key = optional(object({
+      name = string
+      type = string
+    }), null)
+    projection_type    = optional(string, "ALL")
+    non_key_attributes = optional(list(string), null)
+    read_capacity      = optional(number, null)
+    write_capacity     = optional(number, null)
   }))
   default = []
 }
