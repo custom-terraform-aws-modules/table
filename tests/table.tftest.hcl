@@ -33,4 +33,30 @@ run "valid_identifier" {
   }
 }
 
+run "invalid_stream_view" {
+  command = plan
 
+  variables {
+    identifier = "abc"
+    hash_key = {
+      name = "TestPKey"
+      type = "S"
+    }
+    stream_view = "TEST_ONLY"
+  }
+
+  expect_failures = [var.stream_view]
+}
+
+run "valid_stream_view" {
+  command = plan
+
+  variables {
+    identifier = "abc"
+    hash_key = {
+      name = "TestPKey"
+      type = "S"
+    }
+    stream_view = "KEYS_ONLY"
+  }
+}

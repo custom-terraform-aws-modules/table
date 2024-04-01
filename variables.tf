@@ -53,6 +53,18 @@ variable "gsi_keys" {
   default = []
 }
 
+variable "stream_view" {
+  description = "View type of streams from the DynamoDB table. Valid values are: 'KEYS_ONLY', 'NEW_IMAGE', 'OLD_IMAGE', 'NEW_AND_OLD_IMAGES' and null. If null streams will be disabled."
+  type        = string
+  default     = null
+  validation {
+    condition = var.stream_view == null || var.stream_view == "KEYS_ONLY" || (
+      var.stream_view == "NEW_IMAGE") || var.stream_view == "OLD_IMAGE" || (
+    var.stream_view == "NEW_AND_OLD_IMAGES")
+    error_message = "Stream view must be 'KEYS_ONLY', 'NEW_IMAGE', 'OLD_IMAGE', 'NEW_AND_OLD_IMAGES' or null"
+  }
+}
+
 variable "tags" {
   description = "A map of tags to add to all resources."
   type        = map(string)

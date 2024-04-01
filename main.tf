@@ -10,12 +10,14 @@ locals {
 }
 
 resource "aws_dynamodb_table" "main" {
-  billing_mode   = var.provisioned != null ? "PROVISIONED" : "PAY_PER_REQUEST"
-  hash_key       = var.hash_key["name"]
-  range_key      = try(var.sort_key["name"], null)
-  name           = var.identifier
-  read_capacity  = try(var.provisioned["read_capacity"], null)
-  write_capacity = try(var.provisioned["write_capacity"], null)
+  billing_mode     = var.provisioned != null ? "PROVISIONED" : "PAY_PER_REQUEST"
+  hash_key         = var.hash_key["name"]
+  range_key        = try(var.sort_key["name"], null)
+  name             = var.identifier
+  read_capacity    = try(var.provisioned["read_capacity"], null)
+  write_capacity   = try(var.provisioned["write_capacity"], null)
+  stream_enabled   = var.stream_view != null
+  stream_view_type = var.stream_view
 
   dynamic "attribute" {
     for_each = local.attributes
